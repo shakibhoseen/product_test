@@ -7,6 +7,7 @@ import java.util.List;
 public class ProductModel implements Serializable {
     String name, description, id, imageUrl;
     List<ModelVariant> variantList;
+    List<String> colorsBtnList, sizeBtnList;
 
     public ProductModel() {
     }
@@ -49,5 +50,21 @@ public class ProductModel implements Serializable {
 
     public void setVariantList(List<ModelVariant> variantList) {
         this.variantList = variantList;
+    }
+
+    public List<String> getColorsBtnList() {
+        return colorsBtnList;
+    }
+
+    public void setColorsBtnList(List<String> colorsBtnList) {
+        this.colorsBtnList = colorsBtnList;
+    }
+
+    public List<String> getSizeBtnList() {
+        return sizeBtnList;
+    }
+
+    public void setSizeBtnList(List<String> sizeBtnList) {
+        this.sizeBtnList = sizeBtnList;
     }
 }

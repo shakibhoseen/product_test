@@ -22,28 +22,43 @@
             android:layout_height="?attr/actionBarSize">
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+                <ImageView
+
+                    android:id="@+id/back_image_btn_id"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginRight="25dp"
+                    android:src="@drawable/ic_baseline_arrow_back_ios_new_24" />
+
+
+
+                <TextView
+                    android:layout_toEndOf="@+id/back_image_btn_id"
+                    android:id="@+id/toolbar_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="35dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/heebo_semi_bold"
+                    android:maxLines="1"
+                    android:text="Add Product"
+
+                    android:textSize="20sp"
+                    android:layout_toRightOf="@+id/back_image_btn_id" />
 
                 <ImageView
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/ic_baseline_shopping_cart_24" />
 
-                <TextView
-                    android:id="@+id/toolbar_txt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="35dp"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/alfa_slab_one"
-                    android:maxLines="1"
-                    android:text="Add Product"
-                    android:textSize="14sp" />
-            </LinearLayout>
+            </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
 
     </androidx.cardview.widget.CardView>
@@ -57,7 +72,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="#80ffffff"
             android:padding="10dp">
 
@@ -66,8 +81,6 @@
                 android:id="@+id/card2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
 
@@ -162,417 +175,48 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/carter_one"
-                android:text="Small size Product"
+                android:text="Product Variant"
                 android:textColor="#674F06" />
 
 
 
 
-            <LinearLayout
-                android:id="@+id/card4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/raf1"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="3dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:layout_marginRight="3dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/carter_one"
-                            android:text="white color"
-                            android:textColor="@color/black" />
-
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/small_white_id"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:focusable="false"
-                            android:focusableInTouchMode="true"
-                            android:hint="Enter Amount"
-                            android:inputType="number"
-                            app:boxBackgroundColor="#FFF"
-                            app:boxStrokeColor="@color/purple_700"
-                            >
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-
-
-                                android:layout_marginTop="10dp" />
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="3dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:layout_marginRight="3dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/carter_one"
-                            android:text="black color"
-                            android:textColor="@color/black" />
-
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/small_black_id"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:focusable="false"
-                            android:focusableInTouchMode="true"
-                            android:hint="Enter Amount"
-                            android:inputType="number"
-                            app:boxBackgroundColor="#FFF"
-                            app:boxStrokeColor="@color/purple_700"
-                            >
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-
-
-                                android:layout_marginTop="10dp" />
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
-
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_below="@id/card2"
-                android:id="@+id/card1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-                <LinearLayout
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/carter_one"
-                        android:text="White color Product Image"
-                        android:textColor="@color/black" />
-
-                    <Button
-                        android:id="@+id/choose_white_btn_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_margin="10dp"
-                        android:text="choose" />
-
-                </LinearLayout>
-
-                <ImageView
-                    android:visibility="gone"
-                    android:id="@+id/white_image_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/ic_launcher_background"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-                <LinearLayout
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/carter_one"
-                        android:text="Black color Product Image"
-                        android:textColor="@color/black" />
-
-                    <Button
-                        android:backgroundTint="@color/black"
-                        android:id="@+id/choose_black_btn_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_margin="10dp"
-                        android:textColor="@color/white"
-                        android:text="choose" />
-
-                </LinearLayout>
-
-                <ImageView
-                    android:visibility="gone"
-                    android:id="@+id/black_image_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/ic_launcher_background"/>
-
-
-            </LinearLayout>
-
-
-            <TextView
-                android:layout_marginTop="15dp"
-                android:layout_below="@+id/card4"
-                android:id="@+id/raf2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/carter_one"
-                android:textSize="16sp"
-                android:text="Large size Product"
-                android:textColor="#9F0012" />
 
 
             <LinearLayout
+                android:layout_marginTop="10dp"
+
+                android:id="@+id/layout_id"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/raf2"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="3dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:layout_marginRight="3dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/carter_one"
-                            android:text="white color"
-                            android:textColor="@color/black" />
-
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/large_white_id"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:focusable="false"
-                            android:focusableInTouchMode="true"
-                            android:hint="Enter Amount"
-                            android:inputType="number"
-                            app:boxBackgroundColor="#FFF"
-                            app:boxStrokeColor="@color/purple_700"
-                            >
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-
-
-                                android:layout_marginTop="10dp" />
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="3dp"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:layout_marginRight="3dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/carter_one"
-                            android:text="black color"
-                            android:textColor="@color/black" />
-
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/large_black_id"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:focusable="false"
-                            android:focusableInTouchMode="true"
-                            android:hint="Enter Amount"
-                            android:inputType="number"
-                            app:boxBackgroundColor="#FFF"
-                            app:boxStrokeColor="@color/purple_700"
-                            >
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-
-
-                                android:layout_marginTop="10dp" />
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
-
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-                <LinearLayout
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/carter_one"
-                        android:text="White color Product Image"
-                        android:textColor="@color/black" />
-
-                    <Button
-                        android:id="@+id/large_choose_white_btn_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_margin="10dp"
-                        android:text="choose" />
-
-                </LinearLayout>
-
-                <ImageView
-                    android:visibility="gone"
-                    android:id="@+id/large_white_image_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/ic_launcher_background"/>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-                <LinearLayout
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/carter_one"
-                        android:text="Black color Product Image"
-                        android:textColor="@color/black" />
-
-                    <Button
-                        android:backgroundTint="@color/black"
-                        android:id="@+id/large_choose_black_btn_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_margin="10dp"
-                        android:textColor="@color/white"
-                        android:text="choose" />
-
-                </LinearLayout>
-
-                <ImageView
-                    android:visibility="gone"
-                    android:id="@+id/large_black_image_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/ic_launcher_background"/>
+                android:layout_height="wrap_content">
 
 
             </LinearLayout>
 
             <Button
+                android:id="@+id/add_btn_id"
+                android:layout_marginTop="20dp"
+                android:textAllCaps="false"
+                android:textColor="#FFF"
+                android:background="@drawable/custom_button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Variant"
+                android:drawableRight="@drawable/ic_baseline_add_24"/>
+
+
+
+            <Button
+                android:textColor="#FFF"
+                android:layout_marginTop="40dp"
                 android:layout_gravity="center_horizontal"
-                android:backgroundTint="#FF9800"
+                android:background="@drawable/custom_button2"
                 android:id="@+id/save_btn_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_margin="20dp"
+
                 android:text="Save" />
 
 

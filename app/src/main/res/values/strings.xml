@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Product Test</string>
+
+    <string name="taka_name">৳ </string>
 </resources>

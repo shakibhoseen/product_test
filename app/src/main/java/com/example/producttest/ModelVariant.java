@@ -3,7 +3,7 @@ package com.example.producttest;
 import java.io.Serializable;
 
 public class ModelVariant implements Serializable {
-    private String productId, color, size, price, imageUrl;
+    private String productId, color, size, newPrice, oldPrice, imageUrl;
 
     public String getProductId() {
         return productId;
@@ -29,12 +29,20 @@ public class ModelVariant implements Serializable {
         this.size = size;
     }
 
-    public String getPrice() {
-        return price;
+    public String getNewPrice() {
+        return newPrice;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setNewPrice(String newPrice) {
+        this.newPrice = newPrice;
+    }
+
+    public String getOldPrice() {
+        return oldPrice;
+    }
+
+    public void setOldPrice(String oldPrice) {
+        this.oldPrice = oldPrice;
     }
 
     public String getImageUrl() {

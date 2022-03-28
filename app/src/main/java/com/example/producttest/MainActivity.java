@@ -12,6 +12,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
@@ -26,21 +27,22 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int REQUEST_IMAGE1 = 98;  //white small
-    private static final int REQUEST_IMAGE2 = 99;   //black small
-    private static final int REQUEST_IMAGE3 = 97;   //white large
-    private static final int REQUEST_IMAGE4 = 96;   //black small
-    private TextInputLayout name, description, smallWhiteAmount, largeWhiteAmount,
-          smallBlackAmount,  largeBlackAmount;
-  private Button whiteBtn, blackBtn, saveBtn, largeWhiteBtn, largeBlackBtn;
-  Uri whiteImageUri, blackImageUri, largeWhiteUri, largeBlackUri;
-  private String createId;
-  StorageReference storageReference ;
-  ImageView whiteImage, blackImage, largeWhiteImg, largeBlackImg;
-  StorageTask<UploadTask.TaskSnapshot> whiteTask;
+
+    private TextInputLayout name, description;
+    private Button saveBtn, addVariantBtn;
+    ImageView backBtn;
+    List<Model> lists;
+    LinearLayout linearLayout;
+    private String createId;
+    StorageReference storageReference;
+
+    StorageTask<UploadTask.TaskSnapshot> whiteTask;
     StorageTask blackTask;
 
     private String urlWhiteImage, urlBlackImage;
@@ -50,123 +52,102 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        lists = new ArrayList<>();
+
         storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
         name = findViewById(R.id.name_id);
         description = findViewById(R.id.description_id);
-        smallBlackAmount = findViewById(R.id.small_black_id);
-        smallWhiteAmount = findViewById(R.id.small_white_id);
-        largeBlackAmount = findViewById(R.id.large_black_id);
-        largeWhiteAmount = findViewById(R.id.large_white_id);
-
-        whiteBtn = findViewById(R.id.choose_white_btn_id);
-        blackBtn = findViewById(R.id.choose_black_btn_id);
-
-        whiteImage = findViewById(R.id.white_image_id);
-        blackImage = findViewById(R.id.black_image_id);
-
-        largeWhiteBtn = findViewById(R.id.large_choose_white_btn_id);
-        largeBlackBtn = findViewById(R.id.large_choose_black_btn_id);
-        largeWhiteImg = findViewById(R.id.large_white_image_id);
-        largeBlackImg = findViewById(R.id.large_black_image_id);
-
-
-
-
+        linearLayout = findViewById(R.id.layout_id);
 
         saveBtn = findViewById(R.id.save_btn_id);
-
-
-
-
-        whiteBtn.setOnClickListener(view -> {
-            openImage(REQUEST_IMAGE1);
-        });
-
-        blackBtn.setOnClickListener(view -> {
-            openImage(REQUEST_IMAGE2);
-        });
-
-        largeWhiteBtn.setOnClickListener(view -> {
-            openImage(REQUEST_IMAGE3);
-        });
-
-        largeBlackBtn.setOnClickListener(view -> {
-            openImage(REQUEST_IMAGE4);
-        });
-
+        addVariantBtn = findViewById(R.id.add_btn_id);
+        backBtn = findViewById(R.id.back_image_btn_id);
 
         saveBtn.setOnClickListener(view -> {
             String nameTxt = name.getEditText().getText().toString();
             String detailsTxt = description.getEditText().getText().toString();
-            if (whiteImageUri== null || blackImageUri== null|| detailsTxt==null || nameTxt == null ||
-                    largeWhiteUri== null || largeBlackUri== null){
+
+            if (detailsTxt.isEmpty() || nameTxt.isEmpty()) {
                 Toast.makeText(this, "All filed are required", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            int len = lists.size();
+            if (len == 0) {
+                Toast.makeText(this, "please add at least one variant", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
+            for (int i = 0; i < len; i++) {
+                Model m = lists.get(i);
+                String color = Objects.requireNonNull(m.getColorInput().getEditText()).getText().toString();
+                String size = Objects.requireNonNull(m.getSizeInput().getEditText()).getText().toString();
+                String newAm = Objects.requireNonNull(m.getNewAmountInput().getEditText()).getText().toString();
+                String oldAm = Objects.requireNonNull(m.getOldAmountInput().getEditText()).getText().toString();
+                Uri uri = m.getImageUri();
+                if (color.isEmpty() || size.isEmpty() || newAm.isEmpty() || oldAm.isEmpty() || uri == null) {
+                    Toast.makeText(this, "input or image missing for " + (i + 1) + " th product ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
 
             saveDetails(nameTxt, detailsTxt);
 
         });
 
+
+        addVariantBtn.setOnClickListener(view -> {
+            addViews();
+        });
+
+        backBtn.setOnClickListener(view -> {
+            onBackPressed();
+        });
+
     }
 
 
-
-
-    private void openImage(int REQUEST_IMAGE){
+    private void openImage(int REQUEST_IMAGE) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,REQUEST_IMAGE);
+        startActivityForResult(intent, REQUEST_IMAGE);
     }
 
-    private String getFileExtension(Uri uri){
+    private String getFileExtension(Uri uri) {
         ContentResolver contentResolver = MainActivity.this.getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
 
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        int len = lists.size();
+        if (len + 100 > requestCode && requestCode >= 100 && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
-        if(99>=requestCode && requestCode>=96&&resultCode ==RESULT_OK && data!=null && data.getData()!=null){
-
-            if (requestCode == REQUEST_IMAGE1 ){
-                whiteImageUri = data.getData();
-                whiteImage.setImageURI(whiteImageUri);
-               whiteImage.setVisibility(View.VISIBLE);
-
-
-            } if (requestCode == REQUEST_IMAGE2 ){
-                blackImageUri = data.getData();
-                blackImage.setImageURI(blackImageUri);
-                blackImage.setVisibility(View.VISIBLE);
+            for (int i = 0; i < len; i++) {
+                if (requestCode == 100 + i) {
+                    lists.get(i).setImageUri(data.getData());
+                    ImageView imageView = lists.get(i).getView().findViewById(R.id.image_id);
+                    imageView.setImageURI(data.getData());
+                    imageView.setVisibility(View.VISIBLE);
+                }
             }
 
-            if (requestCode == REQUEST_IMAGE3 ){
-                largeWhiteUri = data.getData();
-                largeWhiteImg.setImageURI(largeWhiteUri);
-                largeWhiteImg.setVisibility(View.VISIBLE);
-            }
-            if (requestCode == REQUEST_IMAGE4 ){
-                largeBlackUri = data.getData();
-                largeBlackImg.setImageURI(largeBlackUri);
-                largeBlackImg.setVisibility(View.VISIBLE);
-            }
 
-        } else Toast.makeText(MainActivity.this, "please select a file", Toast.LENGTH_SHORT).show();
-
+        } else
+            Toast.makeText(MainActivity.this, "please select a file", Toast.LENGTH_SHORT).show();
 
 
     }
 
 
-    private void saveDetails(String name, String details){
+    private void saveDetails(String name, String details) {
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Constant.PRODUCT);
         createId = reference.push().getKey();
@@ -175,117 +156,81 @@ public class MainActivity extends AppCompatActivity {
         pd.setCancelable(false);
         pd.show();
 
-        HashMap<String , Object> hashMap = new HashMap<>();
+        HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("id", createId);
         hashMap.put("name", name);
         hashMap.put("description", details);
 
-       reference.child(createId).setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-           @Override
-           public void onComplete(@NonNull Task<Void> task) {
-               if (task.isSuccessful()){
+        reference.child(createId).setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
                     threadBackground();
-               }else{
-                   Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-               }
-               pd.dismiss();
-           }
-       });
+                } else {
+                    Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                pd.dismiss();
+            }
+        });
 
     }
 
 
-
-    private void threadBackground(){
-
-
-
+    private void threadBackground() {
         try {
-            saveVariant(Constant.SMALL, Constant.WHITE, smallWhiteAmount.getEditText().getText().toString(), whiteImageUri);
-            Thread.sleep(200);
-            saveVariant(Constant.SMALL, Constant.BLACK, smallBlackAmount.getEditText().getText().toString(), blackImageUri);
-            Thread.sleep(200);
-            saveVariant(Constant.LARGE, Constant.BLACK, largeBlackAmount.getEditText().getText().toString(), largeBlackUri);
-            Thread.sleep(200);
-            saveVariant(Constant.LARGE, Constant.WHITE, largeWhiteAmount.getEditText().getText().toString(), largeWhiteUri);
-
+            int len = lists.size();
+            for (int i = 0; i < len; i++) {
+                Model m = lists.get(i);
+                String color = Objects.requireNonNull(m.getColorInput().getEditText()).getText().toString();
+                String size = Objects.requireNonNull(m.getSizeInput().getEditText()).getText().toString();
+                String newAm = Objects.requireNonNull(m.getNewAmountInput().getEditText()).getText().toString();
+                String oldAm = Objects.requireNonNull(m.getOldAmountInput().getEditText()).getText().toString();
+                Uri uri = m.getImageUri();
+                saveVariant(size, color, newAm, oldAm, uri, i);
+                Thread.sleep(200);
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-       /* Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
 
-                try {
-                    saveVariant(Constant.SMALL, Constant.WHITE, smallWhiteAmount.getEditText().getText().toString(), whiteImageUri);
-                    Thread.sleep(200);
-                    saveVariant(Constant.SMALL, Constant.BLACK, smallBlackAmount.getEditText().getText().toString(), blackImageUri);
-                    Thread.sleep(200);
-                    saveVariant(Constant.LARGE, Constant.BLACK, largeBlackAmount.getEditText().getText().toString(), blackImageUri);
-                    Thread.sleep(200);
-                    saveVariant(Constant.LARGE, Constant.WHITE, largeWhiteAmount.getEditText().getText().toString(), whiteImageUri);
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();*/
     }
 
 
-
-
-    private void saveVariant(String size, String color, String price, Uri uri){
-        if (createId==null) return;
+    private void saveVariant(String size, String color, String newPrice, String oldPrice, Uri uri, int position) {
+        if (createId == null) return;
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Constant.VARIANT).child(createId);
         final ProgressDialog pd = new ProgressDialog(MainActivity.this);
-        pd.setMessage("Uploading "+color +" "+ size);
+        pd.setMessage("Uploading " + color + " " + size);
         pd.setCancelable(false);
         pd.show();
 
-        if(color.equals(Constant.WHITE)){
-            if(urlWhiteImage!=null){
-                HashMap<String , Object> map = new HashMap<>();
-                map.put("imageUrl",urlWhiteImage);
-                map.put("color",color);
-                map.put("size",size);
-                map.put("price",price);
+
+        if (lists.get(position).getUrlString() != null) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("imageUrl", urlWhiteImage);
+            map.put("color", color);
+            map.put("size", size);
+            map.put("newPrice", newPrice);
+            map.put("oldPrice", oldPrice);
 
 
-                reference.push().setValue(map);
-                pd.dismiss();
+            reference.push().setValue(map);
+            pd.dismiss();
 
-                return;
-            }
-        }else{
-            if(urlBlackImage!=null){
-                HashMap<String , Object> map = new HashMap<>();
-                map.put("imageUrl",urlBlackImage);
-                map.put("color",color);
-                map.put("size",size);
-                map.put("price",price);
-
-
-                reference.push().setValue(map);
-                pd.dismiss();
-
-                return;
-            }
+            return;
         }
 
 
-
-        if(uri!=null){
+        if (uri != null) {
             final StorageReference fileReference = storageReference.child(System.currentTimeMillis()
-                    +"."+getFileExtension(uri));
+                    + "." + getFileExtension(uri));
             whiteTask = fileReference.putFile(uri);
             whiteTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()){
+                    if (!task.isSuccessful()) {
                         throw task.getException();
                     }
                     return fileReference.getDownloadUrl();
@@ -293,27 +238,26 @@ public class MainActivity extends AppCompatActivity {
             }).addOnCompleteListener(new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {
-                    if (task.isSuccessful()){
+                    if (task.isSuccessful()) {
                         Uri downloadUri = (Uri) task.getResult();
                         String mUri = downloadUri.toString();
 
-                        if (color.equals(Constant.WHITE)){
-                            urlWhiteImage = mUri;
-                        }else{
-                            urlBlackImage = mUri;
-                        }
 
-                        HashMap<String , Object> map = new HashMap<>();
-                        map.put("imageUrl",mUri);
-                        map.put("color",color);
-                        map.put("size",size);
-                        map.put("price",price);
+                        lists.get(position).setUrlString(mUri);
+
+
+                        HashMap<String, Object> map = new HashMap<>();
+                        map.put("imageUrl", mUri);
+                        map.put("color", color);
+                        map.put("size", size);
+                        map.put("newPrice", newPrice);
+                        map.put("oldPrice", oldPrice);
 
 
                         reference.push().setValue(map);
                         pd.dismiss();
 
-                    }else {
+                    } else {
                         Toast.makeText(MainActivity.this, "failed to success", Toast.LENGTH_SHORT).show();
                         pd.dismiss();
                     }
@@ -324,8 +268,71 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
-        }else Toast.makeText(MainActivity.this, "No file selected", Toast.LENGTH_SHORT).show();
+        } else Toast.makeText(MainActivity.this, "No file selected", Toast.LENGTH_SHORT).show();
 
+    }
+
+
+    private void addViews() {
+        View view = getLayoutInflater().inflate(R.layout.variant_type, null, false);
+        TextInputLayout sizeInput = view.findViewById(R.id.size_id);
+        TextInputLayout colorInput = view.findViewById(R.id.color_id);
+        TextInputLayout oldAmountInput = view.findViewById(R.id.old_price_id);
+        TextInputLayout newAmountInput = view.findViewById(R.id.new_price_id);
+        ImageView remove = view.findViewById(R.id.remove_id);
+        ImageView image = view.findViewById(R.id.image_id);
+        Button choose = view.findViewById(R.id.choose_btn_id);
+
+
+        remove.setOnClickListener(view1 -> {
+            findRemove(view);
+            // linearLayout.removeView(view);
+
+        });
+
+        choose.setOnClickListener(view1 -> {
+
+            openImage(100 + findPosition(view));
+        });
+
+
+        linearLayout.addView(view);
+
+        Model model = new Model(view, sizeInput, colorInput, newAmountInput, oldAmountInput, null);
+
+        lists.add(model);
+    }
+
+
+    private void findRemove(View view) {
+        int position = 0;
+        boolean isFound = false;
+        for (Model model : lists) {
+            if (model.getView() == view) {
+                Toast.makeText(this, "remove at " + position, Toast.LENGTH_SHORT).show();
+                //lists.remove(model);
+
+                break;
+            }
+            position++;
+        }
+        lists.remove(position);
+        Toast.makeText(this, "size after delete " + lists.size(), Toast.LENGTH_SHORT).show();
+
+        linearLayout.removeView(view);
+    }
+
+
+    private int findPosition(View view) {
+        int position = 0;
+        boolean isFound = false;
+        for (Model model : lists) {
+            if (model.getView() == view) {
+                break;
+            }
+            position++;
+        }
+        return position;
     }
 
 

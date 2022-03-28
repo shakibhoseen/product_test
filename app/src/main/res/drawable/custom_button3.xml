@@ -7,5 +7,5 @@
         android:state_enabled="false"
         android:drawable="@drawable/box_style2"/>
     <item
-        android:drawable="@drawable/box_style_pressed3"/>
+        android:drawable="@drawable/box_style_no_border"/>
 </selector>

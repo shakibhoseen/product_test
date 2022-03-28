@@ -125,6 +125,9 @@ public class HomeActivity extends AppCompatActivity implements FontMainAdapter.O
     @Override
     public void onStoriesClick(int position) {
         ProductModel model = productModelList.get(position);
+
+        identifyUniqueValue(model.getVariantList(), position);
+
         if(model.getVariantList()==null) {
             Toast.makeText(this, "loading please wait or check internet", Toast.LENGTH_SHORT).show();
             return;
@@ -140,4 +143,27 @@ public class HomeActivity extends AppCompatActivity implements FontMainAdapter.O
         intent.putExtras(bundle);
         startActivity(intent);
     }
+
+
+    private void identifyUniqueValue(List<ModelVariant> modelVariantList, int position){
+        int len = modelVariantList.size();
+        List<String> colorList = new ArrayList<>();
+        List<String> sizeList = new ArrayList<>();
+
+        for (int i = 0; i <len ; i++) {
+            ModelVariant model = modelVariantList.get(i);
+            if (!colorList.contains(model.getColor())){
+                colorList.add(model.getColor());
+            }
+
+            if (!sizeList.contains(model.getSize())){
+                sizeList.add(model.getSize());
+            }
+        }
+        productModelList.get(position).setColorsBtnList(colorList);
+        productModelList.get(position).setSizeBtnList(sizeList);
+
+    }
+
+
 }
