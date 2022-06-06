@@ -21,6 +21,9 @@
         <item name="maxHeight">17dip</item>
     </style>
 
+    <style name="FilledBoxEndIconTint" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="endIconTint">#fff</item>
+    </style>
 
 
 </resources>

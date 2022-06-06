@@ -51,6 +51,7 @@
                     android:textSize="20sp" />
 
                 <ImageView
+                    android:id="@+id/image_purched_id"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
                     android:layout_alignParentRight="true"
@@ -647,6 +648,7 @@
 
 
                     <Button
+                        android:id="@+id/place_order_btn_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/custom_button2"
@@ -1196,11 +1198,121 @@
 
 
                 <View
-                    android:layout_marginBottom="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:layout_marginTop="10dp"
                     android:background="#c7c7c7" />
+
+
+                <TextView
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/heebo_extra_bold"
+                    android:text="Product Specification:"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingStart="5dp"
+                            android:paddingLeft="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#201F1F"
+                                android:fontFamily="@font/heebo_medium"
+                                android:text="Fabric and print Color Guarantee or Warranty"
+
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingStart="5dp"
+                            android:paddingLeft="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#000"
+
+                                android:ellipsize="end"
+                                android:fontFamily="@font/heebo_medium"
+                                android:text="Fabric: 80% Cotton, 20% Fleece"
+
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingStart="5dp"
+                            android:paddingLeft="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="#000"
+
+                                android:ellipsize="end"
+                                android:fontFamily="@font/heebo_medium"
+                                android:text="Fabrication: 280 GSM"
+
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
 
             </LinearLayout>
 

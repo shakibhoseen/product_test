@@ -309,15 +309,12 @@ public class MainActivity extends AppCompatActivity {
         boolean isFound = false;
         for (Model model : lists) {
             if (model.getView() == view) {
-                Toast.makeText(this, "remove at " + position, Toast.LENGTH_SHORT).show();
-                //lists.remove(model);
-
                 break;
             }
             position++;
         }
         lists.remove(position);
-        Toast.makeText(this, "size after delete " + lists.size(), Toast.LENGTH_SHORT).show();
+       
 
         linearLayout.removeView(view);
     }

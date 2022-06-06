@@ -2,4 +2,5 @@
     <string name="app_name">Product Test</string>
 
     <string name="taka_name">৳ </string>
+    <string name="gologin">"I have an account already <u>Go to</u> log in page"</string>
 </resources>

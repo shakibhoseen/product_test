@@ -1,5 +1,8 @@
 package com.example.producttest;
 
+import static com.example.producttest.account.Constant.SHARED_PREFS;
+import static com.example.producttest.account.Constant.STATUS;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,9 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
+import com.example.producttest.account.StartActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +35,7 @@ public class HomeActivity extends AppCompatActivity implements FontMainAdapter.O
     FloatingActionButton addBtn;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +45,15 @@ public class HomeActivity extends AppCompatActivity implements FontMainAdapter.O
         recyclerView = findViewById(R.id.recycler_Id);
 
         productModelList = new ArrayList<>();
+
+        SharedPreferences preferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        String ck = preferences.getString(STATUS, "");
+
+        if(ck.equals("buyer")){
+            addBtn.setVisibility(View.GONE);
+        }else if(ck.equals("admin")){
+            addBtn.setVisibility(View.VISIBLE);
+        }
 
 
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
